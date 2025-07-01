@@ -15,7 +15,7 @@ function Get-AccessToken {
     )
 
     $resource = $(
-        switch ($scope) {
+        switch ($Scope) {
             ARM { 'https://management.core.windows.net' }
             Graph { 'https://graph.microsoft.com/' }
             LogAnalytics { 'https://api.loganalytics.io' }

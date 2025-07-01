@@ -1,10 +1,10 @@
 function Get-AccessToken {
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$false)]
         [string]$tenantId,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$false)]
         [string]$clientId,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$false)]
         [string]$clientSecret,
         [Parameter(Mandatory = $false)]
         [ValidateSet('Client','Code', IgnoreCase=$false)]
@@ -16,10 +16,9 @@ function Get-AccessToken {
 
     $resource = $(
         switch ($scope) {
-            ARM { 'https://management.azure.com' }
+            ARM { 'https://management.core.windows.net' }
             Graph { 'https://graph.microsoft.com/' }
             LogAnalytics { 'https://api.loganalytics.io' }
-            Security { 'https://api.security.microsoft.com' }
         }
     )
 
@@ -31,10 +30,10 @@ function Get-AccessToken {
         Write-Host "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S%Z")] INFO: Fetching new access token for $scope."
 
         if ($GrantType -eq 'Client') {
-            $token = Invoke-WebRequest "https://login.microsoftonline.com/$($tenantId)/oauth2/token" `
+            $token = Invoke-WebRequest "https://login.microsoftonline.com/$($Global:tenantId)/oauth2/token" `
             -Method 'POST' `
             -ContentType 'application/x-www-form-urlencoded' `
-            -Body @{'resource' = $resource; 'client_id' = $($clientId); 'grant_type' = 'client_credentials'; 'client_secret' = $($clientSecret);}
+            -Body @{'resource' = $resource; 'client_id' = $($Global:clientId); 'grant_type' = 'client_credentials'; 'client_secret' = $($Global:clientSecret);}
     
         } elseif ($GrantType -eq 'Code') {
 

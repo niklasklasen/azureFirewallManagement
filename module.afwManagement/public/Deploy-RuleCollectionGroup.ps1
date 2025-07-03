@@ -1,4 +1,4 @@
-function Add-RuleCollectionGroup {
+function Deploy-RuleCollectionGroup {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

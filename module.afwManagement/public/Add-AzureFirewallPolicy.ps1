@@ -24,7 +24,8 @@ function Add-AzureFirewallPolicy {
     }
 
     Write-Host "[$(Get-Date -UFormat "%Y-%m-%d %H:%M:%S%Z")] INFO: Creating Azure Firewall Policy"
-    Invoke-WebRequest -Uri "https://management.azure.com/subscriptions/${SubscriptionId}/resourceGroups/${ResourceGroupName}/providers/Microsoft.Network/firewallPolicies/${FirewallPolicyName}?api-version=${apiVersion}" `
+    Invoke-WebRequest `
+        -Uri "https://management.azure.com/subscriptions/${SubscriptionId}/resourceGroups/${ResourceGroupName}/providers/Microsoft.Network/firewallPolicies/${FirewallPolicyName}?api-version=${apiVersion}" `
         -Method 'PUT' `
         -Headers $header `
         -Body (@{ location = $Location } | ConvertTo-Json) `

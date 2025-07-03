@@ -5,7 +5,7 @@ function ConvertTo-RuleCollectionGroupObject {
         [string]$FirewallRulesFolderPath
     )
 
-    $ruleCollectionGroupFolders = Get-ChildItem -Path ./firewall-rules -Directory -Recurse
+    $ruleCollectionGroupFolders = Get-ChildItem -Path $FirewallRulesFolderPath -Directory -Recurse
 
     $ruleCollectionGroups = @() 
 

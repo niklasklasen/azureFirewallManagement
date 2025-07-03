@@ -8,11 +8,9 @@ Import-Module ".\module.afwManagement"
 
 
 # Logic to ingest CSV Files and Folders
-
+$ruleCollectionGroups = ConvertTo-RuleCollectionGroupObject -FirewallRulesFolderPath ./firewall-rules
 # Loop per folder to build Rule Collection Groups
 # Function with logic to build Rule Collection Group Object
 # Logic to deploy Rule Collection Groups
 
 # Function to build summarized CSV file
-
-Add-AzureFirewallPolicy -SubscriptionId "277fa68f-7cba-4e42-8f33-489df4796855" -ResourceGroupName "afw-rg" -FirewallPolicyName "afw-afwp-v2" -Location "swedencentral"

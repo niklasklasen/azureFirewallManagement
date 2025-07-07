@@ -8,21 +8,19 @@ function ConvertTo-RuleCollectionGroupObject {
     $ruleCollectionGroupFolders = Get-ChildItem -Path $FirewallRulesFolderPath -Directory -Recurse
 
     $ruleCollectionGroups = @() 
-
     foreach ($ruleCollectionGroup in $ruleCollectionGroupFolders) {
         $RuleCollectionGroupName = $ruleCollectionGroup.Name.Split("-")[1]
         $RuleCollectionGroupPriority = $ruleCollectionGroup.Name.Split("-")[0]
 
-        $ruleCollections = Get-ChildItem -Path $ruleCollectionGroupFolder.FullName -Filter "*.csv" -File
+        $ruleCollections = Get-ChildItem -Path $ruleCollectionGroup.FullName -Filter "*.csv" -File
         $networkRuleCollections = $ruleCollections | where { $_.Name.Split("-")[1] -eq "network" }
         $applicationRuleCollections = $ruleCollections | where { $_.Name.Split("-")[1] -eq "application" }
 
         $ruleCollection= @()
         foreach ($networkRuleCollection in $networkRuleCollections) {
-            $rulesCsv = Import-Csv -Path $networkRuleCollections.FullName
+            $rulesCsv = Import-Csv -Path $networkRuleCollection.FullName
 
             $rules = @()
-
             $rules += $rulesCsv | ForEach-Object {
                 [PSCustomObject]@{
                     RuleType            = 'NetworkRule'
@@ -35,7 +33,7 @@ function ConvertTo-RuleCollectionGroupObject {
                 }
             }
             $ruleCollection += [PSCustomObject]@{
-                Name                = $networkRuleCollections.Name.Split("-")[3]
+                Name                = $networkRuleCollection.Name.Split("-")[3]
                 RuleCollectionType = 'FirewallPolicyFilterRuleCollection'
                 Priority            = $networkRuleCollection.Name.Split("-")[0]
                 Action              = [PSCustomObject]@{ Type = $networkRuleCollection.Name.Split("-")[2] }

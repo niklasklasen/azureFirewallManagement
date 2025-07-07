@@ -14,3 +14,4 @@ $ruleCollectionGroups = ConvertTo-RuleCollectionGroupObject -FirewallRulesFolder
 # Logic to deploy Rule Collection Groups
 
 # Function to build summarized CSV file
+$ruleCollectionGroups | ConvertTo-Json -Depth 10 | Out-File -FilePath ./firewall-rules/rulecollectionobject.json -Encoding utf8 -Force
